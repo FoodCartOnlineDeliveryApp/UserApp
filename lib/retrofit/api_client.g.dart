@@ -13,7 +13,7 @@ class _RestClient implements RestClient {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'enter_your_base_url/api/';
+    baseUrl ??= 'https://foodcartonline.in/api/';
   }
 
   final Dio _dio;

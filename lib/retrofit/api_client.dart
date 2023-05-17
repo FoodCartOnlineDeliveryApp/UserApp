@@ -34,7 +34,7 @@ import 'package:retrofit/retrofit.dart';
 part 'api_client.g.dart';
 
 
-@RestApi(baseUrl: "enter_your_base_url/api/")
+@RestApi(baseUrl: "https://foodcartonline.in/api/")
 
 //Please don't remove "/api/".
 
