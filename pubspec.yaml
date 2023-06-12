@@ -85,6 +85,9 @@ dependencies:
 #    git:
 #      url: https://github.com/radhen-thirstydevs/google_maps_place_picker.git
 #      ref: google_maps_place_picker_provider_update
+  firebase_messaging: 
+  firebase_core: 
+  flutter_local_notifications: 
 
 dev_dependencies:
   flutter_test:

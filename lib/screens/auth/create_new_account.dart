@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mealup/model/register_model.dart';
@@ -23,7 +24,6 @@ import 'package:mealup/utils/localization/locale_constant.dart';
 import 'package:mealup/utils/rounded_corner_app_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class CreateNewAccount extends StatefulWidget {
   @override
   _CreateNewAccountState createState() => _CreateNewAccountState();
@@ -37,7 +37,6 @@ class Item {
 }
 
 class _CreateNewAccountState extends State<CreateNewAccount> {
-
   bool _passwordVisible = true;
   bool _confirmpasswordVisible = true;
 
@@ -117,7 +116,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
     return BoxDecoration(
       color: color,
       border: isBorder ? Border.all(width: 1.0) : null,
-      borderRadius: BorderRadius.all(Radius.circular(8.0) //                 <--- border radius here
+      borderRadius: BorderRadius.all(
+          Radius.circular(8.0) //                 <--- border radius here
           ),
     );
   }
@@ -130,13 +130,12 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
 
   @override
   Widget build(BuildContext context) {
-
-    ScreenUtil.init(context,
-        designSize: Size(360, 690));
+    ScreenUtil.init(context, designSize: Size(360, 690));
 
     return SafeArea(
       child: Scaffold(
-        appBar: ApplicationToolbar(appbarTitle: Languages.of(context)!.labelCreateNewAccount),
+        appBar: ApplicationToolbar(
+            appbarTitle: Languages.of(context)!.labelCreateNewAccount),
         backgroundColor: Color(0xFFFAFAFA),
         body: SingleChildScrollView(
           child: Padding(
@@ -168,7 +167,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                             FocusScope.of(context).nextFocus();
                           },
                           textInputAction: TextInputAction.next,
-                          hintText: Languages.of(context)!.labelEnterYourFullName,
+                          hintText:
+                              Languages.of(context)!.labelEnterYourFullName,
                           textInputType: TextInputType.text,
                           textEditingController: _textFullName,
                           validator: kvalidateFullName,
@@ -181,7 +181,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                             FocusScope.of(context).nextFocus();
                           },
                           textInputAction: TextInputAction.next,
-                          hintText: Languages.of(context)!.labelEnterYourEmailID,
+                          hintText:
+                              Languages.of(context)!.labelEnterYourEmailID,
                           textInputType: TextInputType.emailAddress,
                           textEditingController: _textEmail,
                           validator: kvalidateEmail,
@@ -189,99 +190,173 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         AppLableWidget(
                           title: Languages.of(context)!.labelContactNumber,
                         ),
-                        Row(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10, right: 10),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: ScreenUtil().setWidth(75),
-                                    decoration: BoxDecoration(
-                                      borderRadius: new BorderRadius.circular(15.0),
-                                      color: Constants.colorWhite,
-                                      border: Border.all(
-                                        color: Colors.grey,
-                                        width: 0.5,
-                                      ),
-                                    ),
-                                    height: ScreenUtil().setHeight(50),
-                                    child: CountryCodePicker(
-                                      padding: EdgeInsets.zero,
-                                      onChanged: (c) {
-                                        setState(() {
-                                          strCountryCode = c.dialCode;
-                                        });
-                                      },
-                                      // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
-                                      initialSelection: 'IN',
-                                      favorite: ['+91', 'IN'],
-                                      hideMainText: true,
-                                      alignLeft: true,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10,),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width /1.69,
-                                    child: TextFormField(
-                                      textInputAction: TextInputAction.next,
-                                      controller: _textContactNo,
-                                      validator: kvalidateCotactNum,
-                                      maxLength: 10,
-                                      buildCounter: (context, {required currentLength, required isFocused, maxLength}) => null,
-                                      keyboardType: TextInputType.number,
-                                      onFieldSubmitted: (v) {
-                                        FocusScope.of(context).nextFocus();
-                                      },
-                                      decoration: InputDecoration(
-                                        prefixIcon: Padding(padding: EdgeInsets.all(15), child: Text('$strCountryCode ')),
-                                        hintStyle: TextStyle(color: Constants.colorHint),
-                                        errorStyle: TextStyle(fontFamily: Constants.appFontBold, color: Colors.red),
-                                        filled: true,
-                                        fillColor: Constants.colorWhite,
-                                        contentPadding: const EdgeInsets.only(left: 14.0, bottom: 6.0, top: 8.0,right: 14),
-                                        errorMaxLines: 2,
-                                        border: new OutlineInputBorder(
-                                          borderRadius: new BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(width: 0.5, color: Colors.grey),
-                                        ),
-                                        enabledBorder: new OutlineInputBorder(
-                                          borderRadius: new BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(width: 0.5, color: Colors.grey),
-                                        ),
-                                        disabledBorder: new OutlineInputBorder(
-                                          borderRadius: new BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(width: 0.5, color: Colors.grey),
-                                        ),
-                                        focusedBorder: new OutlineInputBorder(
-                                          borderRadius: new BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(width: 0.5, color: Colors.grey),
-                                        ),
-                                        errorBorder: new OutlineInputBorder(
-                                          borderRadius: new BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(width: 0.5, color: Colors.red),
-                                        ),
-                                        focusedErrorBorder: new OutlineInputBorder(
-                                          borderRadius: new BorderRadius.circular(15.0),
-                                          borderSide: BorderSide(width: 1, color: Colors.red),
-                                        ),
-                                        hintText: '000 000 0000',
-
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                        Container(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          width: MediaQuery.of(context).size.width,
+                          // width: MediaQuery.of(context).size.width /1.69,
+                          child: TextFormField(
+                            textInputAction: TextInputAction.next,
+                            controller: _textContactNo,
+                            validator: kvalidateCotactNum,
+                            maxLength: 10,
+                            buildCounter: (context,
+                                    {required currentLength,
+                                    required isFocused,
+                                    maxLength}) =>
+                                null,
+                            keyboardType: TextInputType.number,
+                            onFieldSubmitted: (v) {
+                              FocusScope.of(context).nextFocus();
+                            },
+                            decoration: InputDecoration(
+                              prefixIcon: Padding(
+                                  padding: EdgeInsets.all(15),
+                                  child: Text('$strCountryCode ')),
+                              hintStyle: TextStyle(color: Constants.colorHint),
+                              errorStyle: TextStyle(
+                                  fontFamily: Constants.appFontBold,
+                                  color: Colors.red),
+                              filled: true,
+                              fillColor: Constants.colorWhite,
+                              contentPadding: const EdgeInsets.only(
+                                  left: 14.0, bottom: 6.0, top: 8.0, right: 14),
+                              errorMaxLines: 2,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(15.0),
+                                borderSide:
+                                    BorderSide(width: 0.5, color: Colors.grey),
                               ),
-                            )
-                          ],
+                              enabledBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(15.0),
+                                borderSide:
+                                    BorderSide(width: 0.5, color: Colors.grey),
+                              ),
+                              disabledBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(15.0),
+                                borderSide:
+                                    BorderSide(width: 0.5, color: Colors.grey),
+                              ),
+                              focusedBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(15.0),
+                                borderSide:
+                                    BorderSide(width: 0.5, color: Colors.grey),
+                              ),
+                              errorBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(15.0),
+                                borderSide:
+                                    BorderSide(width: 0.5, color: Colors.red),
+                              ),
+                              focusedErrorBorder: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(15.0),
+                                borderSide:
+                                    BorderSide(width: 1, color: Colors.red),
+                              ),
+                              hintText: '000 000 0000',
+                            ),
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
+                          ),
                         ),
+
+                        // Row(
+                        //   children: [
+                        //     Padding(
+                        //       padding: EdgeInsets.only(left: 10, right: 10),
+                        //       // child: Row(
+                        //         children: [
+                        //           // Container(
+                        //           //   width: ScreenUtil().setWidth(75),
+                        //           //   decoration: BoxDecoration(
+                        //           //     borderRadius: new BorderRadius.circular(15.0),
+                        //           //     color: Constants.colorWhite,
+                        //           //     border: Border.all(
+                        //           //       color: Colors.grey,
+                        //           //       width: 0.5,
+                        //           //     ),
+                        //           //   ),
+                        //           //   height: ScreenUtil().setHeight(50),
+                        //           //   child: CountryCodePicker(
+                        //           //     padding: EdgeInsets.zero,
+                        //           //     onChanged: (c) {
+                        //           //       setState(() {
+                        //           //         strCountryCode = c.dialCode;
+                        //           //       });
+                        //           //     },
+                        //           //     // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
+                        //           //     initialSelection: 'IN',
+                        //           //     favorite: ['+91', 'IN'],
+                        //           //     hideMainText: true,
+                        //           //     alignLeft: true,
+                        //           //   ),
+                        //           // ),
+                        //           // SizedBox(width: 10,),
+                        //           Container(
+                        //             width: MediaQuery.of(context).size.width,
+                        //             // width: MediaQuery.of(context).size.width /1.69,
+                        //             child: TextFormField(
+                        //               textInputAction: TextInputAction.next,
+                        //               controller: _textContactNo,
+                        //               validator: kvalidateCotactNum,
+                        //               maxLength: 10,
+                        //               buildCounter: (context, {required currentLength, required isFocused, maxLength}) => null,
+                        //               keyboardType: TextInputType.number,
+                        //               onFieldSubmitted: (v) {
+                        //                 FocusScope.of(context).nextFocus();
+                        //               },
+                        //               decoration: InputDecoration(
+                        //                 prefixIcon: Padding(padding: EdgeInsets.all(15), child: Text('$strCountryCode ')),
+                        //                 hintStyle: TextStyle(color: Constants.colorHint),
+                        //                 errorStyle: TextStyle(fontFamily: Constants.appFontBold, color: Colors.red),
+                        //                 filled: true,
+                        //                 fillColor: Constants.colorWhite,
+                        //                 contentPadding: const EdgeInsets.only(left: 14.0, bottom: 6.0, top: 8.0,right: 14),
+                        //                 errorMaxLines: 2,
+                        //                 border: new OutlineInputBorder(
+                        //                   borderRadius: new BorderRadius.circular(15.0),
+                        //                   borderSide: BorderSide(width: 0.5, color: Colors.grey),
+                        //                 ),
+                        //                 enabledBorder: new OutlineInputBorder(
+                        //                   borderRadius: new BorderRadius.circular(15.0),
+                        //                   borderSide: BorderSide(width: 0.5, color: Colors.grey),
+                        //                 ),
+                        //                 disabledBorder: new OutlineInputBorder(
+                        //                   borderRadius: new BorderRadius.circular(15.0),
+                        //                   borderSide: BorderSide(width: 0.5, color: Colors.grey),
+                        //                 ),
+                        //                 focusedBorder: new OutlineInputBorder(
+                        //                   borderRadius: new BorderRadius.circular(15.0),
+                        //                   borderSide: BorderSide(width: 0.5, color: Colors.grey),
+                        //                 ),
+                        //                 errorBorder: new OutlineInputBorder(
+                        //                   borderRadius: new BorderRadius.circular(15.0),
+                        //                   borderSide: BorderSide(width: 0.5, color: Colors.red),
+                        //                 ),
+                        //                 focusedErrorBorder: new OutlineInputBorder(
+                        //                   borderRadius: new BorderRadius.circular(15.0),
+                        //                   borderSide: BorderSide(width: 1, color: Colors.red),
+                        //                 ),
+                        //                 hintText: '000 000 0000',
+
+                        //               ),
+                        //               inputFormatters: [
+                        //                 FilteringTextInputFormatter.digitsOnly
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         ],
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
                         AppLableWidget(
                           title: Languages.of(context)!.labelPassword,
                         ),
                         CardPasswordTextFieldWidget(
                             textEditingController: _textPassword,
                             validator: kvalidatePassword,
-                            hintText: Languages.of(context)!.labelEnterYourPassword,
+                            hintText:
+                                Languages.of(context)!.labelEnterYourPassword,
                             isPasswordVisible: _passwordVisible),
                         AppLableWidget(
                           title: Languages.of(context)!.labelConfirmPassword,
@@ -289,51 +364,52 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                         CardPasswordTextFieldWidget(
                             textEditingController: _textConfPassword,
                             validator: kValidateConfPassword,
-                            hintText: Languages.of(context)!.labelReEnterPassword,
+                            hintText:
+                                Languages.of(context)!.labelReEnterPassword,
                             isPasswordVisible: _confirmpasswordVisible),
-                        AppLableWidget(
-                          title: Languages.of(context)!.labelLanguage,
-                        ),
-                        ListView.builder(
-                            physics: ClampingScrollPhysics(),
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: _listLanguages.length,
-                            itemBuilder: (BuildContext context, int index) => InkWell(
-                                  onTap: () {
-                                    changeIndex(index);
-                                    String languageCode = '';
-                                    if (index == 0) {
-                                      languageCode = 'en';
-                                    } else if (index == 1) {
-                                      languageCode = 'es';
-                                    } else {
-                                      languageCode = 'ar';
-                                    }
-                                    changeLanguage(context, languageCode);
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: ScreenUtil().setWidth(20),
-                                        bottom: ScreenUtil().setHeight(10),
-                                        top: ScreenUtil().setHeight(10)),
-                                    child: Row(
-                                      children: [
-                                        radioIndex == index ? getChecked() : getunChecked(),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
-                                          child: Text(
-                                            _listLanguages[index],
-                                            style: TextStyle(
-                                                fontFamily: Constants.appFont,
-                                                fontWeight: FontWeight.w900,
-                                                fontSize: ScreenUtil().setSp(14)),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )),
+                        // AppLableWidget(
+                        //   title: Languages.of(context)!.labelLanguage,
+                        // ),
+                        // ListView.builder(
+                        //     physics: ClampingScrollPhysics(),
+                        //     shrinkWrap: true,
+                        //     scrollDirection: Axis.vertical,
+                        //     itemCount: _listLanguages.length,
+                        //     itemBuilder: (BuildContext context, int index) => InkWell(
+                        //           onTap: () {
+                        //             changeIndex(index);
+                        //             String languageCode = '';
+                        //             if (index == 0) {
+                        //               languageCode = 'en';
+                        //             } else if (index == 1) {
+                        //               languageCode = 'es';
+                        //             } else {
+                        //               languageCode = 'ar';
+                        //             }
+                        //             changeLanguage(context, languageCode);
+                        //           },
+                        //           child: Padding(
+                        //             padding: EdgeInsets.only(
+                        //                 left: ScreenUtil().setWidth(20),
+                        //                 bottom: ScreenUtil().setHeight(10),
+                        //                 top: ScreenUtil().setHeight(10)),
+                        //             child: Row(
+                        //               children: [
+                        //                 radioIndex == index ? getChecked() : getunChecked(),
+                        //                 Padding(
+                        //                   padding: EdgeInsets.only(left: ScreenUtil().setWidth(10)),
+                        //                   child: Text(
+                        //                     _listLanguages[index],
+                        //                     style: TextStyle(
+                        //                         fontFamily: Constants.appFont,
+                        //                         fontWeight: FontWeight.w900,
+                        //                         fontSize: ScreenUtil().setSp(14)),
+                        //                   ),
+                        //                 ),
+                        //               ],
+                        //             ),
+                        //           ),
+                        //         )),
                         SizedBox(
                           height: ScreenUtil().setHeight(20),
                         ),
@@ -342,22 +418,22 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                           child: RoundedCornerAppButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                if (radioIndex == 0) {
-                                  strLanguage = 'english';
-                                } else if (radioIndex == 1) {
-                                  strLanguage = 'spanish';
-                                } else {
-                                  strLanguage = 'arabic';
-                                }
+                                strLanguage = 'english';
+                                // if (radioIndex == 0) {
+                                //   strLanguage = 'english';
+                                // } else if (radioIndex == 1) {
+                                //   strLanguage = 'spanish';
+                                // } else {
+                                //   strLanguage = 'arabic';
+                                // }
                                 print('selected Language' + strLanguage);
-                                callRegisterAPI
-                                  (strLanguage);
+                                callRegisterAPI(strLanguage);
                               } else {
-                                setState(() {
-                                });
+                                setState(() {});
                               }
                             },
-                            btnLabel: Languages.of(context)!.labelCreateNewAccount,
+                            btnLabel:
+                                Languages.of(context)!.labelCreateNewAccount,
                           ),
                         ),
                         SizedBox(
@@ -372,12 +448,15 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
                             children: [
                               Text(
                                 Languages.of(context)!.labelAlreadyHaveAccount,
-                                style: TextStyle(fontFamily: Constants.appFont,fontSize: ScreenUtil().setSp(14)),
+                                style: TextStyle(
+                                    fontFamily: Constants.appFont,
+                                    fontSize: ScreenUtil().setSp(14)),
                               ),
                               Text(
                                 Languages.of(context)!.labelLogin,
                                 style: TextStyle(
-                                    fontFamily: Constants.appFontBold,fontSize: ScreenUtil().setSp(16)),
+                                    fontFamily: Constants.appFontBold,
+                                    fontSize: ScreenUtil().setSp(16)),
                               ),
                             ],
                           ),
@@ -418,8 +497,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   String? kvalidateCotactNum(String? value) {
     if (value!.length == 0) {
       return Languages.of(context)!.labelContactNumberRequired;
-    }
-    else
+    } else
       return null;
   }
 
@@ -449,9 +527,8 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
   }
 
   Future<BaseModel<RegisterModel>> callRegisterAPI(String strLanguage) async {
-
     RegisterModel response;
-    try{
+    try {
       Constants.onLoading(context);
       Map<String, String?> body = {
         'name': _textFullName.text,
@@ -462,28 +539,32 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
         'language': strLanguage,
       };
 
-      response = await  RestClient(RetroApi().dioData()).register(body);
+      response = await RestClient(RetroApi().dioData()).register(body);
       print(response.success);
       Constants.hideDialog(context);
       if (response.success!) {
         Constants.toastMessage(response.msg!);
         if (response.data!.otp != null) {
-          SharedPreferenceUtil.putInt(Constants.registrationOTP, response.data!.otp);
+          SharedPreferenceUtil.putInt(
+              Constants.registrationOTP, response.data!.otp);
         } else {
           SharedPreferenceUtil.putInt(Constants.registrationOTP, 0);
         }
         if (response.data!.emailId != null) {
-          SharedPreferenceUtil.putString(Constants.registrationEmail, response.data!.emailId!);
+          SharedPreferenceUtil.putString(
+              Constants.registrationEmail, response.data!.emailId!);
         } else {
           SharedPreferenceUtil.putString(Constants.registrationEmail, '0');
         }
         if (response.data!.phone != null) {
-          SharedPreferenceUtil.putString(Constants.registrationPhone, response.data!.phone!);
+          SharedPreferenceUtil.putString(
+              Constants.registrationPhone, response.data!.phone!);
         } else {
           SharedPreferenceUtil.putString(Constants.registrationPhone, '0');
         }
         if (response.data!.id != null) {
-          SharedPreferenceUtil.putString(Constants.registrationUserId, response.data!.id.toString());
+          SharedPreferenceUtil.putString(
+              Constants.registrationUserId, response.data!.id.toString());
         } else {
           SharedPreferenceUtil.putString(Constants.registrationUserId, '0');
         }
@@ -503,8 +584,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       } else {
         Constants.toastMessage(response.msg!);
       }
-
-    }catch (error, stacktrace) {
+    } catch (error, stacktrace) {
       setState(() {
         Constants.hideDialog(context);
       });
@@ -538,18 +618,18 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
 
   Future<BaseModel<SendOTPModel>> callSendOTP() async {
     SendOTPModel response;
-    try{
+    try {
       Constants.onLoading(context);
       Map<String, String> body = {
         'email_id': _textEmail.text,
         'where': 'register',
       };
-      response  = await RestClient(RetroApi().dioData()).sendOtp(body);
+      response = await RestClient(RetroApi().dioData()).sendOtp(body);
       Constants.hideDialog(context);
       print(response.success);
       if (response.success!) {
-
-        SharedPreferenceUtil.putString(Constants.loginUserId, response.data!.id.toString());
+        SharedPreferenceUtil.putString(
+            Constants.loginUserId, response.data!.id.toString());
         Navigator.of(context).push(
           Transitions(
             transitionType: TransitionType.fade,
@@ -564,7 +644,7 @@ class _CreateNewAccountState extends State<CreateNewAccount> {
       } else {
         Constants.toastMessage(response.msg.toString());
       }
-    }catch (error, stacktrace) {
+    } catch (error, stacktrace) {
       setState(() {
         Constants.hideDialog(context);
       });

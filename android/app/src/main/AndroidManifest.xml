@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.saasmonsk.mealup">
+    package="com.user.foodapp">
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -13,7 +13,7 @@
         android:icon="@mipmap/ic_launcher">
        <meta-data
            android:name="com.google.android.geo.API_KEY"
-           android:value="enter_your_android_map_key" />
+           android:value="AIzaSyBQFSSzQbEbSyiJEntQzGMSJltW_gBXhxM" />
        <meta-data
            android:name="com.google.android.gms.wallet.api.enabled"
            android:value="true" />

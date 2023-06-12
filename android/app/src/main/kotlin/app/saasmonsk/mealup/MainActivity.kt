@@ -1,4 +1,4 @@
-package app.saasmonsk.mealup
+package com.user.foodapp
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

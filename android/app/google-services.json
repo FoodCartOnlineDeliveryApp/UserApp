@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "849512019728",
+    "firebase_url": "https://foodcartdeliveryapp-default-rtdb.firebaseio.com",
+    "project_id": "foodcartdeliveryapp",
+    "storage_bucket": "foodcartdeliveryapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849512019728:android:3527b2e5b26a7bc1961795",
+        "android_client_info": {
+          "package_name": "com.user.foodapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849512019728-ldqe5jqc8ia8te5faa02km1s1694cl6j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.user.foodapp",
+            "certificate_hash": "bf29d38c4239b950623525a820d29d4a97574ac2"
+          }
+        },
+        {
+          "client_id": "849512019728-0739pbvogkh8t4m0soue04e8nb4bo7pv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHI5EEBZQWNQ_mVxuxO4RAtQacZ1drBcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849512019728-0739pbvogkh8t4m0soue04e8nb4bo7pv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
