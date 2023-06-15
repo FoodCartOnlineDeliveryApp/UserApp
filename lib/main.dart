@@ -48,10 +48,12 @@ void main() async {
   );
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
+  final fcmToken = await messaging.getToken();
+  print('fcmToken:= $fcmToken');
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
     print('Message map: ${message.toMap()}');
     print("onMessageOpenedApp: ${message.data}");
-  
+
     // if (message.data["navigation"] == "/your_route") {
     //   int _yourId = int.tryParse(message.data["id"]) ?? 0;
     //   Navigator.push(navigatorKey.currentState!.context,
@@ -85,6 +87,7 @@ void main() async {
   flutterLocalNotificationsPlugin.initialize(
     InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/launcher_icon'),
+      // android: AndroidInitializationSettings('@mipmap/launcher_icon'),
     ),
     //      onSelectNotification: (payload) async {
     //   print("onMessageOpenedAppLocal: $payload");
@@ -116,7 +119,7 @@ void main() async {
           android: AndroidNotificationDetails(
             channel.id, channel.name,
             channelDescription: channel.description,
-            icon: '@mipmap/launcher_icon',
+            // icon: '@mipmap/launcher_icon',
             priority: Priority.high,
             // other properties...
           ),
