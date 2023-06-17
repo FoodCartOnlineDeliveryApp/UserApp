@@ -101,7 +101,8 @@ abstract class RestClient {
   Future<CommenRes> bookOrder(@Body() map);
 
   @POST("add_address")
-  Future<CommenRes> addAddress(@Body() Map<String, String> map);
+  Future<Map<String,dynamic>> addAddress(@Body() Map<String, String> map);
+  // Future<CommenRes> addAddress(@Body() Map<String, String> map);
 
   @POST("apply_promo_code")
   Future<String?> applyPromoCode(@Body() Map<String, String> map);

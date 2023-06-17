@@ -116,21 +116,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Container(
                             child: Column(
                               children: [
-                                Visibility(
-                                  visible: SharedPreferenceUtil.getString(Constants.appPaymentWallet) == '1'? true :true,
-                                  child: ProfileMenuWidget(
-                                    strImagePath: 'images/wallet.svg',
-                                    strMenuName: Languages.of(context)!.walletSetting,
-                                    onClick: () {
-                                      Navigator.of(context).push(Transitions(
-                                          transitionType: TransitionType.slideUp,
-                                          curve: Curves.bounceInOut,
-                                          reverseCurve:
-                                          Curves.fastLinearToSlowEaseIn,
-                                          widget: WalletScreen()));
-                                    },
-                                  ),
-                                ),
+                                // Visibility(
+                                //   visible: SharedPreferenceUtil.getString(Constants.appPaymentWallet) == '1'? true :true,
+                                //   child: ProfileMenuWidget(
+                                //     strImagePath: 'images/wallet.svg',
+                                //     strMenuName: Languages.of(context)!.walletSetting,
+                                //     onClick: () {
+                                //       Navigator.of(context).push(Transitions(
+                                //           transitionType: TransitionType.slideUp,
+                                //           curve: Curves.bounceInOut,
+                                //           reverseCurve:
+                                //           Curves.fastLinearToSlowEaseIn,
+                                //           widget: WalletScreen()));
+                                //     },
+                                //   ),
+                                // ),
+                                
                                 ProfileMenuWidget(
                                   strImagePath: 'images/ic_settings.svg',
                                   strMenuName:

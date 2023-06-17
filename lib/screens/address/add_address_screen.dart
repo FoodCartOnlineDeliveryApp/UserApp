@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,19 +17,23 @@ import 'package:mealup/utils/localization/language/languages.dart';
 import 'package:mealup/utils/rounded_corner_app_button.dart';
 import 'package:mealup/utils_google_map/google_place_picker.dart';
 
+import '../../utils/SharedPreferenceUtil.dart';
+import '../bottom_navigation/dashboard_screen.dart';
 
 class AddAddressScreen extends StatefulWidget {
   final bool isFromAddAddress;
   final double? currentLat, currentLong;
   final marker;
+  final bool fromInitialAddress;
 
-  const AddAddressScreen(
-      {Key? key,
-      required this.isFromAddAddress,
-      required this.currentLat,
-      required this.currentLong,
-      required this.marker})
-      : super(key: key);
+  const AddAddressScreen({
+    Key? key,
+    required this.isFromAddAddress,
+    required this.currentLat,
+    required this.currentLong,
+    required this.marker,
+    this.fromInitialAddress = false,
+  }) : super(key: key);
 
   @override
   _AddAddressScreenState createState() => _AddAddressScreenState();
@@ -76,10 +81,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    ScreenUtil.init(
-        context,
-        designSize: Size(360, 690));
+    ScreenUtil.init(context, designSize: Size(360, 690));
 
     return SafeArea(
         child: Scaffold(
@@ -384,7 +386,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             ),
                             Expanded(
                               child: Padding(
-                                padding:const EdgeInsets.only(left: 12, top: 2),
+                                padding:
+                                    const EdgeInsets.only(left: 12, top: 2),
                                 child: Text(
                                   strSearchedAddress,
                                   overflow: TextOverflow.ellipsis,
@@ -469,7 +472,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   }
 
   Future<BaseModel<CommenRes>> callAddUserAddress(strAddressLabel) async {
-    CommenRes response;
+    // CommenRes response;
+    Map<String,dynamic> response;
     try {
       Constants.onLoading(context);
       Map<String, String> body = {
@@ -479,19 +483,52 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         'type': strAddressLabel,
       };
 
+      // response = await RestClient(RetroApi().dioData()).addAddress(body);
+      // Constants.hideDialog(context);
+      // print("widget.fromInitialAddress ${widget.fromInitialAddress}");
+
+      // print(response.success);
+      // print("responseDataaa ${response.toJson()}");
+      // if (response.success!) {
       response = await RestClient(RetroApi().dioData()).addAddress(body);
       Constants.hideDialog(context);
-      print(response.success);
-      if (response.success!) {
-        Navigator.pop(context);
-        Navigator.of(context).pushReplacement(
-          Transitions(
-            transitionType: TransitionType.slideUp,
-            curve: Curves.bounceInOut,
-            reverseCurve: Curves.fastLinearToSlowEaseIn,
-            widget: ManageYourLocation(),
-          ),
-        );
+      print("widget.fromInitialAddress ${widget.fromInitialAddress}");
+
+      print("responseDataaa ${response}");
+      final addressMap = jsonDecode(jsonEncode(response));
+      print(addressMap['success']);
+      var addressId = addressMap['data']['address_id']['id'];
+      var responseAddress = addressMap['data']['address_id']['address'];
+      print("addressId $addressId");
+      if (response['success']) {
+        if (widget.fromInitialAddress == true) {
+          SharedPreferenceUtil.putString(
+              'selectedLat', strLatitude);
+          SharedPreferenceUtil.putString(
+              'selectedLng', strLongitude);
+          SharedPreferenceUtil.putString(
+              Constants.selectedAddress,responseAddress);
+          SharedPreferenceUtil.putInt(
+              Constants.selectedAddressId, addressId);
+          Navigator.of(context).pushReplacement(
+            Transitions(
+              transitionType: TransitionType.slideUp,
+              curve: Curves.bounceInOut,
+              reverseCurve: Curves.fastLinearToSlowEaseIn,
+              widget: DashboardScreen(0),
+            ),
+          );
+        } else {
+          Navigator.pop(context);
+          Navigator.of(context).pushReplacement(
+            Transitions(
+              transitionType: TransitionType.slideUp,
+              curve: Curves.bounceInOut,
+              reverseCurve: Curves.fastLinearToSlowEaseIn,
+              widget: ManageYourLocation(),
+            ),
+          );
+        }
       } else {
         Constants.toastMessage(
             Languages.of(context)!.labelErrorWhileAddAddress);
@@ -501,6 +538,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       print("Exception occurred: $error stackTrace: $stacktrace");
       return BaseModel()..setException(ServerError.withError(error: error));
     }
-    return BaseModel()..data = response;
+    return BaseModel()
+      ..data = CommenRes(
+          data: response['data']['message'], success: response['success']);
   }
 }

@@ -471,7 +471,8 @@ class _RestClient implements RestClient {
   }
 
   @override
-  Future<CommenRes> addAddress(map) async {
+  // Future<CommenRes> addAddress(map) async {
+  Future<Map<String,dynamic>> addAddress(map) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -490,7 +491,8 @@ class _RestClient implements RestClient {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = CommenRes.fromJson(_result.data!);
+    final value = _result.data!;
+    // final value = CommenRes.fromJson(_result.data!);
     return value;
   }
 

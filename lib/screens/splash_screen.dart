@@ -11,6 +11,7 @@ import 'package:mealup/utils/constants.dart';
 import 'package:mealup/utils/database_helper.dart';
 import 'package:mealup/utils/preference_utils.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'address/initial_address_screen.dart';
 import 'bottom_navigation/dashboard_screen.dart';
 import 'intro/intro_screen1.dart';
 
@@ -44,7 +45,8 @@ class _SplashScreenState extends State<SplashScreen> {
         this.context,
         MaterialPageRoute(
           builder: (BuildContext context) => PreferenceUtils.isIntroDone("isIntroDone")
-              ? DashboardScreen(0)
+              ? InitialAddressScreen()
+              // ? DashboardScreen(0)
               : IntroScreen1(),
         ),
       );

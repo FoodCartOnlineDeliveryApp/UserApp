@@ -79,15 +79,16 @@ class _SettingScreenState extends State<SettingScreen> {
                             },
                             strMenuName:
                                 Languages.of(context)!.labelChangePassword),
-                        SettingMenuWidget(
-                            onClick: () {
-                              Navigator.of(context).push(Transitions(
-                                  transitionType: TransitionType.fade,
-                                  curve: Curves.bounceInOut,
-                                  reverseCurve: Curves.fastLinearToSlowEaseIn,
-                                  widget: LanguagesScreen()));
-                            },
-                            strMenuName: Languages.of(context)!.labelLanguage),
+                        // SettingMenuWidget(
+                        //     onClick: () {
+                        //       Navigator.of(context).push(Transitions(
+                        //           transitionType: TransitionType.fade,
+                        //           curve: Curves.bounceInOut,
+                        //           reverseCurve: Curves.fastLinearToSlowEaseIn,
+                        //           widget: LanguagesScreen()));
+                        //     },
+                        //     strMenuName: Languages.of(context)!.labelLanguage),
+                       
                         SettingMenuWidget(
                             onClick: () {
                               Navigator.of(context).push(Transitions(

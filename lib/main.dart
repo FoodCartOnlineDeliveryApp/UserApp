@@ -86,7 +86,7 @@ void main() async {
       FlutterLocalNotificationsPlugin();
   flutterLocalNotificationsPlugin.initialize(
     InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/launcher_icon'),
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
       // android: AndroidInitializationSettings('@mipmap/launcher_icon'),
     ),
     //      onSelectNotification: (payload) async {
@@ -119,7 +119,7 @@ void main() async {
           android: AndroidNotificationDetails(
             channel.id, channel.name,
             channelDescription: channel.description,
-            // icon: '@mipmap/launcher_icon',
+            icon: '@mipmap/ic_launcher',
             priority: Priority.high,
             // other properties...
           ),
