@@ -27,27 +27,30 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
     _queryFirst(context, widget.model);
 
-    PreferenceUtils.isIntroDone("disclaimer") == true?  Constants.checkNetwork().whenComplete(() => callAppSettingData()) : null;
+    PreferenceUtils.isIntroDone("disclaimer") == true
+        ? Constants.checkNetwork().whenComplete(() => callAppSettingData())
+        : null;
     changeRoute();
   }
 
+  Future changeRoute() async {
+    final isLoggedIn = SharedPreferenceUtil.getBool(Constants.isLoggedIn);
 
-  Future changeRoute() async{
-
-      await Future.delayed(Duration(milliseconds: 3000),(){
+    await Future.delayed(Duration(milliseconds: 3000), () {
       Navigator.pushReplacement(
         this.context,
         MaterialPageRoute(
-          builder: (BuildContext context) => PreferenceUtils.isIntroDone("isIntroDone")
-              ? InitialAddressScreen()
-              // ? DashboardScreen(0)
-              : IntroScreen1(),
+          builder: (BuildContext context) =>
+              PreferenceUtils.isIntroDone("isIntroDone")
+                  ? isLoggedIn
+                      ? InitialAddressScreen()
+                      : DashboardScreen(0)
+                  : IntroScreen1(),
         ),
       );
     });
@@ -60,16 +63,16 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('images/ic_background_image.png'),
-              fit: BoxFit.cover,
-            )),
+          image: AssetImage('images/ic_background_image.png'),
+          fit: BoxFit.cover,
+        )),
         alignment: Alignment.center,
         child: Hero(
           tag: 'App_logo',
           child: Image.asset('images/ic_intro_logo.png'),
         ),
       ),
-        backgroundColor: Constants.colorBackground,
+      backgroundColor: Constants.colorBackground,
     );
   }
 
@@ -80,18 +83,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
       if (response.success!) {
         if (response.data!.currencySymbol != null) {
-          SharedPreferenceUtil.putString(
-              Constants.appSettingCurrencySymbol, response.data!.currencySymbol!);
+          SharedPreferenceUtil.putString(Constants.appSettingCurrencySymbol,
+              response.data!.currencySymbol!);
         } else {
-          SharedPreferenceUtil.putString(Constants.appSettingCurrencySymbol, '\$');
+          SharedPreferenceUtil.putString(
+              Constants.appSettingCurrencySymbol, '\$');
         }
         if (response.data!.currency != null) {
-          SharedPreferenceUtil.putString(Constants.appSettingCurrency, response.data!.currency!);
+          SharedPreferenceUtil.putString(
+              Constants.appSettingCurrency, response.data!.currency!);
         } else {
           SharedPreferenceUtil.putString(Constants.appSettingCurrency, 'USD');
         }
         if (response.data!.aboutUs != null) {
-          SharedPreferenceUtil.putString(Constants.appSettingAboutUs, response.data!.aboutUs!);
+          SharedPreferenceUtil.putString(
+              Constants.appSettingAboutUs, response.data!.aboutUs!);
         } else {
           SharedPreferenceUtil.putString(Constants.appSettingAboutUs, '');
         }
@@ -104,7 +110,8 @@ class _SplashScreenState extends State<SplashScreen> {
         }
 
         if (response.data!.help != null) {
-          SharedPreferenceUtil.putString(Constants.appSettingHelp, response.data!.help!);
+          SharedPreferenceUtil.putString(
+              Constants.appSettingHelp, response.data!.help!);
         } else {
           SharedPreferenceUtil.putString(Constants.appSettingHelp, '');
         }
@@ -117,20 +124,22 @@ class _SplashScreenState extends State<SplashScreen> {
         }
 
         if (response.data!.companyDetails != null) {
-          SharedPreferenceUtil.putString(Constants.appAboutCompany, response.data!.companyDetails!);
+          SharedPreferenceUtil.putString(
+              Constants.appAboutCompany, response.data!.companyDetails!);
         } else {
           SharedPreferenceUtil.putString(Constants.appAboutCompany, '');
         }
 
         if (response.data!.driverAutoRefrese != null) {
-          SharedPreferenceUtil.putInt(
-              Constants.appSettingDriverAutoRefresh, response.data!.driverAutoRefrese);
+          SharedPreferenceUtil.putInt(Constants.appSettingDriverAutoRefresh,
+              response.data!.driverAutoRefrese);
         } else {
           SharedPreferenceUtil.putInt(Constants.appSettingDriverAutoRefresh, 0);
         }
 
         if (response.data!.isPickup != null) {
-          SharedPreferenceUtil.putInt(Constants.appSettingIsPickup, response.data!.isPickup);
+          SharedPreferenceUtil.putInt(
+              Constants.appSettingIsPickup, response.data!.isPickup);
         } else {
           SharedPreferenceUtil.putInt(Constants.appSettingIsPickup, 0);
         }
@@ -142,16 +151,20 @@ class _SplashScreenState extends State<SplashScreen> {
           SharedPreferenceUtil.putString(Constants.appSettingCustomerAppId, '');
         }
 
-        SharedPreferenceUtil.putInt(Constants.appSettingBusinessAvailability, response.data!.businessAvailability);
+        SharedPreferenceUtil.putInt(Constants.appSettingBusinessAvailability,
+            response.data!.businessAvailability);
 
-        if (SharedPreferenceUtil.getInt(Constants.appSettingBusinessAvailability) == 0) {
-          SharedPreferenceUtil.putString(Constants.appSettingBusinessMessage, response.data!.message!);
+        if (SharedPreferenceUtil.getInt(
+                Constants.appSettingBusinessAvailability) ==
+            0) {
+          SharedPreferenceUtil.putString(
+              Constants.appSettingBusinessMessage, response.data!.message!);
         }
 
-        if (SharedPreferenceUtil
-            .getString(Constants.appPushOneSingleToken)
+        if (SharedPreferenceUtil.getString(Constants.appPushOneSingleToken)
             .isEmpty) {
-          getOneSingleToken(SharedPreferenceUtil.getString(Constants.appSettingCustomerAppId));
+          getOneSingleToken(SharedPreferenceUtil.getString(
+              Constants.appSettingCustomerAppId));
         }
       } else {
         Constants.toastMessage('Error while get app setting data.');
@@ -169,13 +182,13 @@ class _SplashScreenState extends State<SplashScreen> {
     OneSignal.shared.consentGranted(true);
     await OneSignal.shared.setAppId(appId);
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
+    await OneSignal.shared
+        .promptUserForPushNotificationPermission(fallbackToSettings: true);
     OneSignal.shared.promptLocationPermission();
     var status = await (OneSignal.shared.getDeviceState());
     userId = status!.userId;
 
-    if (SharedPreferenceUtil
-        .getString(Constants.appPushOneSingleToken)
+    if (SharedPreferenceUtil.getString(Constants.appPushOneSingleToken)
         .isEmpty) {
     } else {
       SharedPreferenceUtil.putString(Constants.appPushOneSingleToken, userId!);

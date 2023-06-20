@@ -11,6 +11,7 @@ import 'package:mealup/utils/SharedPreferenceUtil.dart';
 import 'package:mealup/utils/constants.dart';
 import 'package:mealup/utils/localization/language/languages.dart';
 import 'package:share/share.dart';
+import '../../utils/fcm_notification.dart';
 import '../setting_screen.dart';
 import '../your_favorites_screen.dart';
 
@@ -199,7 +200,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             actions: <Widget>[
                                               TextButton(
                                                 child: Text(Languages.of(context)!.labelYES, style: TextStyle(color: Constants.colorBlack),),
-                                                onPressed: () {
+                                                onPressed: () async {
+                                                  await FCMNotification.addRemoveFCMToken(context,processType: 0);
                                                   SharedPreferenceUtil.putBool(Constants.isLoggedIn, false);
                                                   SharedPreferenceUtil.clear();
                                                   Navigator.of(context).pushAndRemoveUntil(Transitions(

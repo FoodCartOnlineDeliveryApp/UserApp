@@ -48,8 +48,8 @@ void main() async {
   );
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
-  final fcmToken = await messaging.getToken();
-  print('fcmToken:= $fcmToken');
+  // final fcmToken = await messaging.getToken();
+  // print('fcmToken:= $fcmToken');
   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
     print('Message map: ${message.toMap()}');
     print("onMessageOpenedApp: ${message.data}");

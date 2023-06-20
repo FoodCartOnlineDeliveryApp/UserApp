@@ -16,6 +16,7 @@ import 'package:mealup/utils/app_lable_widget.dart';
 import 'package:mealup/utils/card_password_textfield.dart';
 import 'package:mealup/utils/card_textfield.dart';
 import 'package:mealup/utils/constants.dart';
+import '/utils/fcm_notification.dart';
 import 'package:mealup/utils/hero_image_app_logo.dart';
 import 'package:mealup/utils/localization/language/languages.dart';
 import 'package:mealup/utils/localization/locale_constant.dart';
@@ -40,8 +41,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    if (SharedPreferenceUtil.getString(Constants.appPushOneSingleToken).isEmpty) {
-      getOneSingleToken(SharedPreferenceUtil.getString(Constants.appSettingCustomerAppId));
+    if (SharedPreferenceUtil.getString(Constants.appPushOneSingleToken)
+        .isEmpty) {
+      getOneSingleToken(
+          SharedPreferenceUtil.getString(Constants.appSettingCustomerAppId));
     }
     callAppSettingData();
   }
@@ -56,27 +59,32 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       response = await RestClient(RetroApi().dioData()).setting();
       print(response.success);
-      print('businessAvailability' + response.data!.businessAvailability.toString());
+      print('businessAvailability' +
+          response.data!.businessAvailability.toString());
 
       if (response.success!) {
         if (response.data!.currencySymbol != null) {
-          SharedPreferenceUtil.putString(
-              Constants.appSettingCurrencySymbol, response.data!.currencySymbol!);
+          SharedPreferenceUtil.putString(Constants.appSettingCurrencySymbol,
+              response.data!.currencySymbol!);
         } else {
-          SharedPreferenceUtil.putString(Constants.appSettingCurrencySymbol, '\$');
+          SharedPreferenceUtil.putString(
+              Constants.appSettingCurrencySymbol, '\$');
         }
         if (response.data!.currency != null) {
-          SharedPreferenceUtil.putString(Constants.appSettingCurrency, response.data!.currency!);
+          SharedPreferenceUtil.putString(
+              Constants.appSettingCurrency, response.data!.currency!);
         } else {
           SharedPreferenceUtil.putString(Constants.appSettingCurrency, 'USD');
         }
         if (response.data!.aboutUs != null) {
-          SharedPreferenceUtil.putString(Constants.appSettingAboutUs, response.data!.aboutUs!);
+          SharedPreferenceUtil.putString(
+              Constants.appSettingAboutUs, response.data!.aboutUs!);
         } else {
           SharedPreferenceUtil.putString(Constants.appSettingAboutUs, '');
         }
         if (response.data!.aboutUs != null) {
-          SharedPreferenceUtil.putString(Constants.appSettingAboutUs, response.data!.aboutUs!);
+          SharedPreferenceUtil.putString(
+              Constants.appSettingAboutUs, response.data!.aboutUs!);
         } else {
           SharedPreferenceUtil.putString(Constants.appSettingAboutUs, '');
         }
@@ -89,7 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         if (response.data!.help != null) {
-          SharedPreferenceUtil.putString(Constants.appSettingHelp, response.data!.help!);
+          SharedPreferenceUtil.putString(
+              Constants.appSettingHelp, response.data!.help!);
         } else {
           SharedPreferenceUtil.putString(Constants.appSettingHelp, '');
         }
@@ -102,19 +111,21 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         if (response.data!.companyDetails != null) {
-          SharedPreferenceUtil.putString(Constants.appAboutCompany, response.data!.companyDetails!);
+          SharedPreferenceUtil.putString(
+              Constants.appAboutCompany, response.data!.companyDetails!);
         } else {
           SharedPreferenceUtil.putString(Constants.appAboutCompany, '');
         }
         if (response.data!.driverAutoRefrese != null) {
-          SharedPreferenceUtil.putInt(
-              Constants.appSettingDriverAutoRefresh, response.data!.driverAutoRefrese);
+          SharedPreferenceUtil.putInt(Constants.appSettingDriverAutoRefresh,
+              response.data!.driverAutoRefrese);
         } else {
           SharedPreferenceUtil.putInt(Constants.appSettingDriverAutoRefresh, 0);
         }
 
         if (response.data!.isPickup != null) {
-          SharedPreferenceUtil.putInt(Constants.appSettingIsPickup, response.data!.isPickup);
+          SharedPreferenceUtil.putInt(
+              Constants.appSettingIsPickup, response.data!.isPickup);
         } else {
           SharedPreferenceUtil.putInt(Constants.appSettingIsPickup, 0);
         }
@@ -128,21 +139,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
         if (response.data!.androidCustomerVersion != null) {
           SharedPreferenceUtil.putString(
-              Constants.appSettingAndroidCustomerVersion, response.data!.androidCustomerVersion!);
+              Constants.appSettingAndroidCustomerVersion,
+              response.data!.androidCustomerVersion!);
         } else {
-          SharedPreferenceUtil.putString(Constants.appSettingAndroidCustomerVersion, '');
+          SharedPreferenceUtil.putString(
+              Constants.appSettingAndroidCustomerVersion, '');
         }
 
-        SharedPreferenceUtil.putInt(
-            Constants.appSettingBusinessAvailability, response.data!.businessAvailability);
+        SharedPreferenceUtil.putInt(Constants.appSettingBusinessAvailability,
+            response.data!.businessAvailability);
 
-        if (SharedPreferenceUtil.getInt(Constants.appSettingBusinessAvailability) == 0) {
+        if (SharedPreferenceUtil.getInt(
+                Constants.appSettingBusinessAvailability) ==
+            0) {
           SharedPreferenceUtil.putString(
               Constants.appSettingBusinessMessage, response.data!.message!);
         }
 
-        if (SharedPreferenceUtil.getString(Constants.appPushOneSingleToken).isEmpty) {
-          getOneSingleToken(SharedPreferenceUtil.getString(Constants.appSettingCustomerAppId));
+        if (SharedPreferenceUtil.getString(Constants.appPushOneSingleToken)
+            .isEmpty) {
+          getOneSingleToken(SharedPreferenceUtil.getString(
+              Constants.appSettingCustomerAppId));
         }
       } else {
         Constants.toastMessage('Error while get app setting data.');
@@ -202,7 +219,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                     widget: DashboardScreen(0)));
                               },
                               child: Padding(
-                                padding: const EdgeInsets.only(right: 10, left: 10, top: 10),
+                                padding: const EdgeInsets.only(
+                                    right: 10, left: 10, top: 10),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
@@ -226,9 +244,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(height: 20),
                             Container(
                               child: Padding(
-                                padding: const EdgeInsets.only(left: 20, right: 20),
+                                padding:
+                                    const EdgeInsets.only(left: 20, right: 20),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
                                   children: [
                                     AppLableWidget(
                                       title: Languages.of(context)!.labelEmail,
@@ -238,44 +258,56 @@ class _LoginScreenState extends State<LoginScreen> {
                                         FocusScope.of(context).nextFocus();
                                       },
                                       textInputAction: TextInputAction.next,
-                                      hintText: Languages.of(context)!.labelEnterYourEmailID,
+                                      hintText: Languages.of(context)!
+                                          .labelEnterYourEmailID,
                                       textInputType: TextInputType.emailAddress,
                                       textEditingController: _textEmail,
                                       validator: kvalidateEmail,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         AppLableWidget(
-                                          title: Languages.of(context)!.labelPassword,
+                                          title: Languages.of(context)!
+                                              .labelPassword,
                                         ),
                                       ],
                                     ),
                                     CardPasswordTextFieldWidget(
                                         textEditingController: _textPassword,
                                         validator: kvalidatePassword,
-                                        hintText: Languages.of(context)!.labelEnterYourPassword,
+                                        hintText: Languages.of(context)!
+                                            .labelEnterYourPassword,
                                         isPasswordVisible: _passwordVisible),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
-                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
                                       children: [
                                         Container(
                                           padding: const EdgeInsets.all(10.0),
                                           alignment: Alignment.centerRight,
                                           child: GestureDetector(
                                             onTap: () {
-                                              Navigator.of(context).push(Transitions(
-                                                  transitionType: TransitionType.fade,
-                                                  curve: Curves.bounceInOut,
-                                                  reverseCurve: Curves.fastLinearToSlowEaseIn,
-                                                  widget: ChangePassword()));
+                                              Navigator.of(context).push(
+                                                  Transitions(
+                                                      transitionType:
+                                                          TransitionType.fade,
+                                                      curve: Curves.bounceInOut,
+                                                      reverseCurve: Curves
+                                                          .fastLinearToSlowEaseIn,
+                                                      widget:
+                                                          ChangePassword()));
                                             },
                                             child: Text(
-                                              Languages.of(context)!.labelForgotPassword,
+                                              Languages.of(context)!
+                                                  .labelForgotPassword,
                                               style: TextStyle(
-                                                fontFamily: Constants.appFontBold,
-                                                fontSize: ScreenUtil().setSp(16),
+                                                fontFamily:
+                                                    Constants.appFontBold,
+                                                fontSize:
+                                                    ScreenUtil().setSp(16),
                                               ),
                                             ),
                                           ),
@@ -284,18 +316,23 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                          left: 20.0, right: 20, top: 10, bottom: 10),
+                                          left: 20.0,
+                                          right: 20,
+                                          top: 10,
+                                          bottom: 10),
                                       child: RoundedCornerAppButton(
                                         onPressed: () {
-                                          if (_formKey.currentState!.validate()) {
+                                          if (_formKey.currentState!
+                                              .validate()) {
                                             Constants.checkNetwork()
-                                                .whenComplete(() => callUserLogin());
+                                                .whenComplete(
+                                                    () => callUserLogin());
                                           } else {
-                                            setState(() {
-                                            });
+                                            setState(() {});
                                           }
                                         },
-                                        btnLabel: Languages.of(context)!.labelLogin,
+                                        btnLabel:
+                                            Languages.of(context)!.labelLogin,
                                       ),
                                     ),
                                     SizedBox(
@@ -304,23 +341,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                     GestureDetector(
                                       onTap: () {
                                         Navigator.of(context).push(Transitions(
-                                            transitionType: TransitionType.slideUp,
+                                            transitionType:
+                                                TransitionType.slideUp,
                                             curve: Curves.bounceInOut,
-                                            reverseCurve: Curves.fastLinearToSlowEaseIn,
+                                            reverseCurve:
+                                                Curves.fastLinearToSlowEaseIn,
                                             widget: CreateNewAccount()));
                                       },
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            Languages.of(context)!.labelDonthaveAcc,
+                                            Languages.of(context)!
+                                                .labelDonthaveAcc,
                                             style: TextStyle(
                                               fontFamily: Constants.appFont,
                                               fontSize: ScreenUtil().setSp(14),
                                             ),
                                           ),
                                           Text(
-                                            Languages.of(context)!.labelCreateNow,
+                                            Languages.of(context)!
+                                                .labelCreateNow,
                                             style: TextStyle(
                                               fontFamily: Constants.appFontBold,
                                               fontSize: ScreenUtil().setSp(16),
@@ -371,16 +413,17 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   getOneSingleToken(String appId) async {
-
-
     OneSignal.shared.consentGranted(true);
     await OneSignal.shared.setAppId(appId);
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
-    await OneSignal.shared.promptUserForPushNotificationPermission(fallbackToSettings: true);
+    await OneSignal.shared
+        .promptUserForPushNotificationPermission(fallbackToSettings: true);
     OneSignal.shared.promptLocationPermission();
-    await OneSignal.shared.getDeviceState().then(
-        (value) => SharedPreferenceUtil.putString(Constants.appPushOneSingleToken, value!.userId!));
-    print("pushtoken1:${SharedPreferenceUtil.getString(Constants.appPushOneSingleToken)}");
+    await OneSignal.shared.getDeviceState().then((value) =>
+        SharedPreferenceUtil.putString(
+            Constants.appPushOneSingleToken, value!.userId!));
+    print(
+        "pushtoken1:${SharedPreferenceUtil.getString(Constants.appPushOneSingleToken)}");
   }
 
   Future<BaseModel<LoginModel>> callUserLogin() async {
@@ -392,7 +435,8 @@ class _LoginScreenState extends State<LoginScreen> {
         'email_id': _textEmail.text,
         'password': _textPassword.text,
         'provider': provider,
-        'device_token': SharedPreferenceUtil.getString(Constants.appPushOneSingleToken),
+        'device_token':
+            SharedPreferenceUtil.getString(Constants.appPushOneSingleToken),
       };
 
       response = await RestClient(RetroApi().dioData()).userLogin(body);
@@ -403,28 +447,39 @@ class _LoginScreenState extends State<LoginScreen> {
           Constants.toastMessage(Languages.of(context)!.labelLoginSuccessfully);
           response.data!.otp == null
               ? SharedPreferenceUtil.putInt(Constants.loginOTP, 0)
-              : SharedPreferenceUtil.putInt(Constants.loginOTP, response.data!.otp);
-          SharedPreferenceUtil.putString(Constants.loginEmail, response.data!.emailId!);
-          SharedPreferenceUtil.putString(Constants.loginPhone, response.data!.phone!);
+              : SharedPreferenceUtil.putInt(
+                  Constants.loginOTP, response.data!.otp);
+          SharedPreferenceUtil.putString(
+              Constants.loginEmail, response.data!.emailId!);
+          SharedPreferenceUtil.putString(
+              Constants.loginPhone, response.data!.phone!);
           if (response.data!.phoneCode != null) {
-            SharedPreferenceUtil.putString(Constants.loginPhoneCode, response.data!.phoneCode!);
+            SharedPreferenceUtil.putString(
+                Constants.loginPhoneCode, response.data!.phoneCode!);
           } else {
             SharedPreferenceUtil.putString(Constants.loginPhoneCode, '+91');
           }
-          SharedPreferenceUtil.putString(Constants.loginUserId, response.data!.id.toString());
-          SharedPreferenceUtil.putString(Constants.headerToken, response.data!.token!);
-          SharedPreferenceUtil.putString(Constants.loginUserImage, response.data!.image!);
-          SharedPreferenceUtil.putString(Constants.loginUserName, response.data!.name!);
+          SharedPreferenceUtil.putString(
+              Constants.loginUserId, response.data!.id.toString());
+          SharedPreferenceUtil.putString(
+              Constants.headerToken, response.data!.token!);
+          SharedPreferenceUtil.putString(
+              Constants.loginUserImage, response.data!.image!);
+          SharedPreferenceUtil.putString(
+              Constants.loginUserName, response.data!.name!);
 
           response.data!.ifscCode == null
               ? SharedPreferenceUtil.putString(Constants.bankIFSC, '')
-              : SharedPreferenceUtil.putString(Constants.bankIFSC, response.data!.ifscCode!);
+              : SharedPreferenceUtil.putString(
+                  Constants.bankIFSC, response.data!.ifscCode!);
           response.data!.micrCode == null
               ? SharedPreferenceUtil.putString(Constants.bankMICR, '')
-              : SharedPreferenceUtil.putString(Constants.bankMICR, response.data!.micrCode!);
+              : SharedPreferenceUtil.putString(
+                  Constants.bankMICR, response.data!.micrCode!);
           response.data!.accountName == null
               ? SharedPreferenceUtil.putString(Constants.bankACCName, '')
-              : SharedPreferenceUtil.putString(Constants.bankACCName, response.data!.accountName!);
+              : SharedPreferenceUtil.putString(
+                  Constants.bankACCName, response.data!.accountName!);
           response.data!.accountNumber == null
               ? SharedPreferenceUtil.putString(Constants.bankACCNumber, '')
               : SharedPreferenceUtil.putString(
@@ -442,7 +497,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
 
           changeLanguage(context, languageCode);
-
+          await FCMNotification.addRemoveFCMToken(context);
           Navigator.of(context).pushReplacement(
             Transitions(
               transitionType: TransitionType.slideUp,
@@ -452,7 +507,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         } else {
-          SharedPreferenceUtil.putString(Constants.registrationUserId, response.data?.id.toString() ?? "04");
+          SharedPreferenceUtil.putString(Constants.registrationUserId,
+              response.data?.id.toString() ?? "04");
           callSendOTP();
         }
       } else {
@@ -478,7 +534,8 @@ class _LoginScreenState extends State<LoginScreen> {
       Constants.hideDialog(context);
       print(response.success);
       if (response.success!) {
-        SharedPreferenceUtil.putString(Constants.loginUserId, response.data!.id.toString());
+        SharedPreferenceUtil.putString(
+            Constants.loginUserId, response.data!.id.toString());
         Navigator.of(context).push(
           Transitions(
             transitionType: TransitionType.fade,
